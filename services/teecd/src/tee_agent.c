@@ -49,7 +49,7 @@ int GetFsFd(void)
     return g_fsFd;
 }
 
-static int AgentInit(unsigned int id, void **control)
+static int AgentInit(unsigned int id, unsigned int bufferSize, void **control)
 {
     int ret;
     struct AgentIoctlArgs args = { 0 };
@@ -65,7 +65,7 @@ static int AgentInit(unsigned int id, void **control)
 
     /* register agent */
     args.id         = id;
-    args.bufferSize = TRANS_BUFF_SIZE;
+    args.bufferSize = bufferSize;
     ret             = ioctl(fd, (int)TC_NS_CLIENT_IOCTL_REGISTER_AGENT, &args);
     if (ret) {
         (void)tee_close(&fd);
@@ -102,7 +102,7 @@ static int g_fsThreadFlag = 0;
 static int ProcessAgentInit(void)
 {
     int ret;
-    g_fsFd = AgentInit(AGENT_FS_ID, (void **)(&g_fsControl));
+    g_fsFd = AgentInit(AGENT_FS_ID, FS_TRANS_BUFF_SIZE, (void **)(&g_fsControl));
     if (g_fsFd < 0) {
         tloge("fs agent init failed\n");
         g_fsThreadFlag = 0;
@@ -110,13 +110,13 @@ static int ProcessAgentInit(void)
         g_fsThreadFlag = 1;
     }
 
-    g_miscFd = AgentInit(AGENT_MISC_ID, (void **)(&g_miscControl));
+    g_miscFd = AgentInit(AGENT_MISC_ID, TRANS_BUFF_SIZE, (void **)(&g_miscControl));
     if (g_miscFd < 0) {
         tloge("misc agent init failed\n");
         goto ERROR1;
     }
 
-    ret = AgentInit(SECFILE_LOAD_AGENT_ID, (void **)(&g_secLoadAgentControl));
+    ret =  AgentInit(AGENT_MISC_ID, TRANS_BUFF_SIZE, (void **)(&g_miscControl));
     if (ret < 0) {
         tloge("secfile load agent init failed\n");
         goto ERROR2;
