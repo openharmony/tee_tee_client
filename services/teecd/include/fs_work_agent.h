@@ -37,8 +37,6 @@
 #define SEC_STORAGE_DATA_USER_0 USER_DATA_DIR"sec_storage_data_users/0"
 #define SEC_STORAGE_DATA_DIR    USER_DATA_DIR"sec_storage_data/"
 
-#define TRANS_BUFF_SIZE (4 * 1024) /* agent transfer share buffer size */
-
 #define SEC_STORAGE_ROOT_DIR      "/" SFS_PARTITION_PERSISTENT
 
 /* 0700 only uid:tee can read and write sec_storage folder */

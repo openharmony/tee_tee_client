@@ -10,7 +10,11 @@
 
 import("//build/ohos.gni")
 import("//build/ohos_var.gni")
-
+component_type = ""
+if (defined(global_parts_info) &&
+    defined(global_parts_info.bundlemanager_bundle_framework)) {
+  component_type = "system"
+}
 ohos_executable("teecd") {
   part_name = "tee_client"
   subsystem_name = "tee"
@@ -53,7 +57,11 @@ ohos_executable("teecd") {
   defines += [ "ENABLE_FDSAN_CHECK" ]
   defines += [ "DYNAMIC_SRV_FEIMA_DIR = \"/vendor/etc/passthrough/teeos/dynamic_srv\"" ]
   defines += [ "DYNAMIC_DRV_FEIMA_DIR = \"/vendor/etc/passthrough/teeos/dynamic_drv\"" ]
-
+  if (component_type == "system") {
+    defines += [
+      "FS_TRANS_BUFF_SIZE=0x4000"
+    ]
+  }
   external_deps = [
     "bounds_checking_function:libsec_shared",
     "c_utils:utils",
