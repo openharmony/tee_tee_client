@@ -116,7 +116,7 @@ static int ProcessAgentInit(void)
         goto ERROR1;
     }
 
-    ret =  AgentInit(AGENT_MISC_ID, TRANS_BUFF_SIZE, (void **)(&g_miscControl));
+    ret =  AgentInit(SECFILE_LOAD_AGENT_ID, TRANS_BUFF_SIZE, (void **)(&g_miscControl));
     if (ret < 0) {
         tloge("secfile load agent init failed\n");
         goto ERROR2;
