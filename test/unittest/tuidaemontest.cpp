@@ -272,7 +272,7 @@ HWTEST_F(TUIDaemonTest, TeeTuiThreadWork_006, TestSize.Level1)
     EXPECT_TRUE(screen == 1);
     screen = TmpInstance->TUIGetPhyScreen("8", FOLD_STATE_EXPAND_WITH_SECOND_HALF_FOLDED);
     EXPECT_TRUE(screen == 1);
-    screen = TmpInstance->TUIGetPhyScreen("6", FOLD_STATE_EXPANDED);
+    screen = TmpInstance->TUIGetPhyScreen("8", FOLD_STATE_EXPANDED);
     EXPECT_TRUE(screen == 0);
     screen = TmpInstance->TUIGetPhyScreen("1", FOLD_STATE_EXPAND_WITH_SECOND_HALF_FOLDED);
     EXPECT_TRUE(screen == 0);
